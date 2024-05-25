@@ -1,0 +1,11 @@
+.vs/
+.vsconfig
+Assembly-CSharp.csproj
+Drone Sim.sln
+Library/
+Logs/
+Packages/
+obj/
+Temp/
+Codes/
+Builds/
