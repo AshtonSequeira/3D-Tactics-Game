@@ -28,6 +28,24 @@ public class GridScript
 
                 GameObject _basicBlock = GameObject.Instantiate(_blockPrefab,_currentPos,Quaternion.identity);
                 SingleGridBlockScript _singleGridBlock = _basicBlock.GetComponent<SingleGridBlockScript>();
+
+                if ( _i%2 == 0)
+                {
+                    if ( _j%2 == 0)
+                    {
+                        _singleGridBlock._colour = 1;
+                    }
+                }
+                else
+                {
+                    if (_j % 2 != 0)
+                    {
+                        _singleGridBlock._colour = 1;
+                    }
+                }
+
+
+                _singleGridBlock.SetColour();
                 _singleGridBlock._x = _i;
                 _singleGridBlock._y = _j;
             }
