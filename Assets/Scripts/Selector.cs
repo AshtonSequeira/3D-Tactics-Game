@@ -51,31 +51,31 @@ public class Selector : MonoBehaviour
 
         }
 
-        if(Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
-        {
-            if (_selected != null)
-            {
-                _selected.GetComponent<Renderer>().material = _originalMaterial2;
-                _selected = null;
-            }
+        //if(Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
+        //{
+        //    if (_selected != null)
+        //    {
+        //        _selected.GetComponent<Renderer>().material = _originalMaterial2;
+        //        _selected = null;
+        //    }
 
-            if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(_ray, out _raycastHit))
-            {
-                _selected = _raycastHit.transform;
-                if (_selected.CompareTag("Selectable"))
-                {
-                    _originalMaterial2 = _originalMaterial;
-                    _selected.GetComponent<MeshRenderer>().material = _selectMaterial;
-                }                
-                else
-                {
-                    _selected = null;
-                }
+        //    if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(_ray, out _raycastHit))
+        //    {
+        //        _selected = _raycastHit.transform;
+        //        if (_selected.CompareTag("Selectable"))
+        //        {
+        //            _originalMaterial2 = _originalMaterial;
+        //            _selected.GetComponent<MeshRenderer>().material = _selectMaterial;
+        //        }                
+        //        else
+        //        {
+        //            _selected = null;
+        //        }
 
-            }
+        //    }
 
-           // Debug.Log("Selected: " + _selected.name);
+        //   // Debug.Log("Selected: " + _selected.name);
 
-        }
+        //}
     }
 }

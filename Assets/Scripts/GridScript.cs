@@ -7,11 +7,12 @@ public class GridScript
 {
     public int _width, _height;
     public int[,] _gridArray;
+    public bool _isGridGenerated = false;
 
     public SingleGridBlockScript[,] _gridBlockArray;
     //[SerializeField] GameObject _gridParent;
 
- public GridScript(int _width, int _height, GameObject _blockPrefab)
+ public GridScript(int _width, int _height, GameObject _blockPrefab , Transform _gridHolder)
     {
         this._width = _width;
         this._height = _height;
@@ -30,7 +31,7 @@ public class GridScript
 
                 Vector3 _currentPos = new Vector3(_i, 0f,_j);
 
-                GameObject _basicBlock = GameObject.Instantiate(_blockPrefab,_currentPos,Quaternion.identity);
+                GameObject _basicBlock = GameObject.Instantiate(_blockPrefab,_currentPos,Quaternion.identity, _gridHolder);
                 SingleGridBlockScript _singleGridBlock = _basicBlock.GetComponent<SingleGridBlockScript>();
 
                 _gridBlockArray[_i, _j] = _singleGridBlock; 
@@ -55,6 +56,7 @@ public class GridScript
                 _singleGridBlock._x = _i;
                 _singleGridBlock._y = _j;
 
+                _isGridGenerated = true;
                 
             }
         }
