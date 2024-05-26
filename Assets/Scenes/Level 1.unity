@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 32077753}
   - component: {fileID: 32077752}
   - component: {fileID: 32077754}
+  - component: {fileID: 32077755}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -187,6 +188,21 @@ MonoBehaviour:
   _highlightMaterial: {fileID: 2100000, guid: 65796ab96df4d9c4aa328367909db506, type: 2}
   _selectMaterial: {fileID: 2100000, guid: fb755ade7da3d3148a167d095ed1da45, type: 2}
   _coords: {fileID: 1693663660}
+--- !u!114 &32077755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32077751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5257248bbaacef744a778669fe785486, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gridGenerator: {fileID: 32077752}
+  _obstacle: {fileID: 7272433755127272206, guid: 6db351256d467b442a9fb931a92f4094,
+    type: 3}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

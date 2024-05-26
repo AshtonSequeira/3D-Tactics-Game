@@ -6,6 +6,10 @@ public class SingleGridBlockScript : MonoBehaviour
 {
     public int _x;
     public int _y;
+    public bool _isBlocked = false;
+    public bool _isObstaclePlaced = false;
+
+    public GameObject _obstacle;
 
     [SerializeField] Material[] _materials;
     public int _colour = 0;
