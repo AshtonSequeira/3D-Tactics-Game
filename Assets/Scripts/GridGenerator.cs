@@ -47,15 +47,20 @@ public class GridGenerator : MonoBehaviour
         {
             SingleGridBlockScript _endNode = _selector._selected.GetComponent<SingleGridBlockScript>();
 
-            if(_endNode._x != _playerController._posX && _endNode._y != _playerController._posY)
+            if(_endNode._x != _playerController._posX || _endNode._y != _playerController._posY)
             {
                 List<SingleGridBlockScript> _path = FindPath(_playerController._posX, _playerController._posY, _endNode._x, _endNode._y);
 
                 if (_path != null)
                 {
-                    _playerController._posX = _endNode._x;
-                    _playerController._posY = _endNode._y;
-                    _player.transform.position = _grid._gridBlockArray[_endNode._x, _endNode._y].transform.position + new Vector3(0f, 1.3f, 0f);
+                    //_playerController._posX = _endNode._x;
+                    //_playerController._posY = _endNode._y;
+
+                    _playerController._canMove = false;
+
+                    StartCoroutine(MoveUnit(_path, 0, _endNode));
+
+                    //_player.transform.position = _grid._gridBlockArray[_endNode._x, _endNode._y].transform.position + new Vector3(0f, 1.3f, 0f);
                     
                     for (int i = 0; i < _path.Count - 1; i++)
                     {
@@ -66,6 +71,29 @@ public class GridGenerator : MonoBehaviour
             }
         }
         
+    }
+
+    IEnumerator MoveUnit(List<SingleGridBlockScript> _path, int i , SingleGridBlockScript _endNode)
+    {
+        i++;
+
+        yield return new WaitForSeconds(0.5f);
+
+        _player.transform.position = _grid._gridBlockArray[_path[i]._x, _path[i]._y].transform.position + new Vector3(0f, 1.3f, 0f);
+
+        _playerController._posX = _path[i]._x;
+        _playerController._posY = _path[i]._y;
+
+        if (_playerController._posX == _endNode._x && _playerController._posY == _endNode._y)
+        {
+            _playerController._canMove = true;
+        }
+
+        if (i < _path.Count - 1)
+        {
+            StartCoroutine(MoveUnit(_path, i, _endNode));            
+        }
+
     }
 
     private List<SingleGridBlockScript> FindPath(int _startX, int _startY, int _endX, int _endY)

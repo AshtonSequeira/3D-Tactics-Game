@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _highlightMaterial: {fileID: 2100000, guid: 65796ab96df4d9c4aa328367909db506, type: 2}
   _selectMaterial: {fileID: 2100000, guid: fb755ade7da3d3148a167d095ed1da45, type: 2}
+  _grid: {fileID: 32077752}
   _selected: {fileID: 0}
   _isSelected: 0
   _coords: {fileID: 1693663660}

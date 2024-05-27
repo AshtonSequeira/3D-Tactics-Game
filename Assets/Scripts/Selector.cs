@@ -8,6 +8,7 @@ public class Selector : MonoBehaviour
 {
     [SerializeField] Material _highlightMaterial;
     [SerializeField] Material _selectMaterial;
+    [SerializeField] GridGenerator _grid;
 
     Material _originalMaterial;
     Material _originalMaterial2;
@@ -58,33 +59,39 @@ public class Selector : MonoBehaviour
 
         }
 
-        if (Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject() && _grid._isGridGenerated)
         {
-            if (_selected != null)
+            PlayerController _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+
+            if(_player._canMove)
             {
-                _selected.GetComponent<Renderer>().material = _originalMaterial2;
-                _selected = null;
-                _isSelected = false;
-            }
-
-            if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(_ray, out _raycastHit))
-            {
-                _selected = _raycastHit.transform;
-                if (_selected.CompareTag("Selectable"))
+                if (_selected != null)
                 {
-                    _originalMaterial2 = _originalMaterial;
-                    _selected.GetComponent<MeshRenderer>().material = _selectMaterial;
-
-                    _isSelected = true;
-
-                }
-                else
-                {
+                    _selected.GetComponent<Renderer>().material = _originalMaterial2;
                     _selected = null;
                     _isSelected = false;
                 }
 
+                if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(_ray, out _raycastHit))
+                {
+                    _selected = _raycastHit.transform;
+                    if (_selected.CompareTag("Selectable"))
+                    {
+                        _originalMaterial2 = _originalMaterial;
+                        _selected.GetComponent<MeshRenderer>().material = _selectMaterial;
+
+                        _isSelected = true;
+
+                    }
+                    else
+                    {
+                        _selected = null;
+                        _isSelected = false;
+                    }
+
+                }
             }
+            
 
             // Debug.Log("Selected: " + _selected.name);
 
