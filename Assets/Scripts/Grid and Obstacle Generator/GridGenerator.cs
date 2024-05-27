@@ -95,6 +95,12 @@ public class GridGenerator : MonoBehaviour
                     continue;
                 }
 
+                if(_neighbourNode._isBlocked)
+                {
+                    _closedList.Add(_neighbourNode);
+                    continue;
+                }
+
                 int _tGCost = _currentNode._gCost + CalculateDistanceCost(_currentNode, _neighbourNode);
 
                 if (_tGCost < _neighbourNode._gCost)
