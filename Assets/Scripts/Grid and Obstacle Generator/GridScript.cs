@@ -23,29 +23,29 @@ public class GridScript
 
         //Debug.Log(_width+ " "+ _height);
 
-        for (int _i = 0; _i < _gridArray.GetLength(0); _i++)
+        for (int i = 0; i < _gridArray.GetLength(0); i++)
         {
-            for (int _j = 0; _j < _gridArray.GetLength(1); _j++)
+            for (int j = 0; j < _gridArray.GetLength(1); j++)
             {
                 //Debug.Log(_i +" "+ _j);
 
-                Vector3 _currentPos = new Vector3(_i, 0f,_j);
+                Vector3 _currentPos = new Vector3(i, 0f,j);
 
                 GameObject _basicBlock = GameObject.Instantiate(_blockPrefab,_currentPos,Quaternion.identity, _gridHolder);
                 SingleGridBlockScript _singleGridBlock = _basicBlock.GetComponent<SingleGridBlockScript>();
 
-                _gridBlockArray[_i, _j] = _singleGridBlock; 
+                _gridBlockArray[i, j] = _singleGridBlock; 
 
-                if ( _i%2 == 0)
+                if ( i%2 == 0)
                 {
-                    if ( _j%2 == 0)
+                    if ( j%2 == 0)
                     {
                         _singleGridBlock._colour = 1;
                     }
                 }
                 else
                 {
-                    if (_j % 2 != 0)
+                    if (j % 2 != 0)
                     {
                         _singleGridBlock._colour = 1;
                     }
@@ -53,8 +53,8 @@ public class GridScript
 
 
                 _singleGridBlock.SetColour();
-                _singleGridBlock._x = _i;
-                _singleGridBlock._y = _j;
+                _singleGridBlock._x = i;
+                _singleGridBlock._y = j;
 
                 _isGridGenerated = true;
                 

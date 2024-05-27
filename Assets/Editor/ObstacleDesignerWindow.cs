@@ -76,21 +76,21 @@ public class ObstacleDesignerWindow : EditorWindow
     {
         GUILayout.BeginArea(_bodySection);
 
-        for (int _j = _gridGenerator._y - 1; _j >= 0 ; _j--)
+        for (int j = _gridGenerator._y - 1; j >= 0 ; j--)
         {
 
             EditorGUILayout.BeginHorizontal();
 
-            for (int _i = 0; _i < _gridGenerator._x ; _i++)
+            for (int i = 0; i < _gridGenerator._x ; i++)
             {
-                if (GUILayout.Toggle(_gridGenerator._grid._gridBlockArray[_i, _j]._isBlocked, "(" + _i + "," + _j + ")", GUILayout.MaxWidth(50)))
+                if (GUILayout.Toggle(_gridGenerator._grid._gridBlockArray[i, j]._isBlocked, "(" + i + "," + j + ")", GUILayout.MaxWidth(50)))
                 {
-                    _gridGenerator._grid._gridBlockArray[_i, _j]._isBlocked = true;
+                    _gridGenerator._grid._gridBlockArray[i, j]._isBlocked = true;
                  
                 }
                 else
                 {
-                    _gridGenerator._grid._gridBlockArray[_i, _j]._isBlocked = false;
+                    _gridGenerator._grid._gridBlockArray[i, j]._isBlocked = false;
                 }
 
 

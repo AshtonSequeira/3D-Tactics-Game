@@ -12,7 +12,8 @@ public class Selector : MonoBehaviour
     Material _originalMaterial;
     Material _originalMaterial2;
     Transform _highlighted;
-    Transform _selected;
+    public Transform _selected;
+    public bool _isSelected = false;
     RaycastHit _raycastHit;
 
     [SerializeField] TMP_Text _coords;
@@ -49,33 +50,44 @@ public class Selector : MonoBehaviour
                 _highlighted = null;
             }
 
+            if(_selected && _raycastHit.transform == _selected)
+            {
+                _coords.text = "X : " + _selected.GetComponent<SingleGridBlockScript>()._x + ", Y : " + _selected.GetComponent<SingleGridBlockScript>()._y;
+
+            }
+
         }
 
-        //if(Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
-        //{
-        //    if (_selected != null)
-        //    {
-        //        _selected.GetComponent<Renderer>().material = _originalMaterial2;
-        //        _selected = null;
-        //    }
+        if (Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
+        {
+            if (_selected != null)
+            {
+                _selected.GetComponent<Renderer>().material = _originalMaterial2;
+                _selected = null;
+                _isSelected = false;
+            }
 
-        //    if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(_ray, out _raycastHit))
-        //    {
-        //        _selected = _raycastHit.transform;
-        //        if (_selected.CompareTag("Selectable"))
-        //        {
-        //            _originalMaterial2 = _originalMaterial;
-        //            _selected.GetComponent<MeshRenderer>().material = _selectMaterial;
-        //        }                
-        //        else
-        //        {
-        //            _selected = null;
-        //        }
+            if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(_ray, out _raycastHit))
+            {
+                _selected = _raycastHit.transform;
+                if (_selected.CompareTag("Selectable"))
+                {
+                    _originalMaterial2 = _originalMaterial;
+                    _selected.GetComponent<MeshRenderer>().material = _selectMaterial;
 
-        //    }
+                    _isSelected = true;
 
-        //   // Debug.Log("Selected: " + _selected.name);
+                }
+                else
+                {
+                    _selected = null;
+                    _isSelected = false;
+                }
 
-        //}
+            }
+
+            // Debug.Log("Selected: " + _selected.name);
+
+        }
     }
 }
