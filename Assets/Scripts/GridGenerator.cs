@@ -6,6 +6,9 @@ public class GridGenerator : MonoBehaviour
 {
     public int _x = 5, _y = 5;
     [SerializeField] GameObject _basicBlock;
+    [SerializeField] GameObject _playerPrefab;
+    [SerializeField] GameObject _player;
+    [SerializeField] PlayerController _playerController;
     [SerializeField] GameObject _gridHolder;
     [HideInInspector] public bool _isGridGenerated = false;
     [SerializeField] Selector _selector;
@@ -24,6 +27,13 @@ public class GridGenerator : MonoBehaviour
     {
         _grid = new GridScript(_x,_y,_basicBlock, _gridHolder.transform);
 
+        _player = GameObject.Instantiate(_playerPrefab, _grid._gridBlockArray[0,0].transform.position + new Vector3(0f, 1.3f , 0f), Quaternion.identity);
+        
+        _playerController = _player.GetComponent<PlayerController>();
+
+        _playerController._posX = 0;
+        _playerController._posY = 0;
+
         //Debug.Log(_grid._gridBlockArray[0, 1]._x +" , " + _grid._gridBlockArray[0, 1]._y);
 
         //_grid._gridBlockArray[0, 1]._isBlocked = true;
@@ -37,14 +47,21 @@ public class GridGenerator : MonoBehaviour
         {
             SingleGridBlockScript _endNode = _selector._selected.GetComponent<SingleGridBlockScript>();
 
-            List<SingleGridBlockScript> _path = FindPath(0, 0, _endNode._x, _endNode._y);
-
-            if (_path != null)
+            if(_endNode._x != _playerController._posX && _endNode._y != _playerController._posY)
             {
-                for (int i = 0; i < _path.Count - 1; i++)
+                List<SingleGridBlockScript> _path = FindPath(_playerController._posX, _playerController._posY, _endNode._x, _endNode._y);
+
+                if (_path != null)
                 {
-                    Debug.DrawLine(new Vector3(_path[i]._x, 1.5f ,_path[i]._y), new Vector3(_path[i+1]._x, 1.5f ,_path[i+1]._y), Color.red);
+                    _playerController._posX = _endNode._x;
+                    _playerController._posY = _endNode._y;
+                    _player.transform.position = _grid._gridBlockArray[_endNode._x, _endNode._y].transform.position + new Vector3(0f, 1.3f, 0f);
                     
+                    for (int i = 0; i < _path.Count - 1; i++)
+                    {
+                        Debug.DrawLine(new Vector3(_path[i]._x, 1.5f, _path[i]._y), new Vector3(_path[i + 1]._x, 1.5f, _path[i + 1]._y), Color.red,10);
+
+                    }
                 }
             }
         }

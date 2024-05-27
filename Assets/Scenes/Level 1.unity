@@ -158,6 +158,10 @@ MonoBehaviour:
   _y: 10
   _basicBlock: {fileID: 6352493298973563744, guid: c61a5f824d621a7499c59a5058383181,
     type: 3}
+  _playerPrefab: {fileID: 3905058307833758371, guid: a11bff27dd839f84aa9642325df3bbab,
+    type: 3}
+  _player: {fileID: 0}
+  _playerController: {fileID: 0}
   _gridHolder: {fileID: 336726442}
   _isGridGenerated: 0
   _selector: {fileID: 32077754}
