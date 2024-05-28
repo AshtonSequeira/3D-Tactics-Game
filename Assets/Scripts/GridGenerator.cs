@@ -7,11 +7,14 @@ public class GridGenerator : MonoBehaviour
     public int _x = 5, _y = 5;
     [SerializeField] GameObject _basicBlock;
     [SerializeField] GameObject _playerPrefab;
-    [SerializeField] GameObject _player;
-    [SerializeField] PlayerController _playerController;
+    [HideInInspector] GameObject _player;
+    [SerializeField] GameObject _enemyPrefab;
+    [HideInInspector] GameObject _enemy;
+    [HideInInspector] PlayerController _playerController;
     [SerializeField] GameObject _gridHolder;
     [HideInInspector] public bool _isGridGenerated = false;
     [SerializeField] Selector _selector;
+    GameManger _gameManger;
 
     List<SingleGridBlockScript> _openList;
     List<SingleGridBlockScript> _closedList;
@@ -29,6 +32,10 @@ public class GridGenerator : MonoBehaviour
 
         _player = GameObject.Instantiate(_playerPrefab, _grid._gridBlockArray[0,0].transform.position + new Vector3(0f, 1.3f , 0f), Quaternion.identity);
         
+        _enemy = GameObject.Instantiate(_enemyPrefab, _grid._gridBlockArray[_grid._width - 1, _grid._height - 1].transform.position + new Vector3(0f, 1.3f , 0f), Quaternion.identity);
+        
+        _gameManger = GetComponent<GameManger>();
+
         _playerController = _player.GetComponent<PlayerController>();
 
         _playerController._posX = 0;
@@ -93,6 +100,8 @@ public class GridGenerator : MonoBehaviour
         if (_playerController._posX == _endNode._x && _playerController._posY == _endNode._y)
         {
             _playerController._canMove = true;
+
+            _gameManger.DecideMove();
         }
 
         if (i < _path.Count - 1)

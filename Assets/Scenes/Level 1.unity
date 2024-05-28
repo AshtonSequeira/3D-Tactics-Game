@@ -135,9 +135,10 @@ GameObject:
   - component: {fileID: 32077752}
   - component: {fileID: 32077754}
   - component: {fileID: 32077755}
+  - component: {fileID: 32077756}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,8 +161,8 @@ MonoBehaviour:
     type: 3}
   _playerPrefab: {fileID: 3905058307833758371, guid: a11bff27dd839f84aa9642325df3bbab,
     type: 3}
-  _player: {fileID: 0}
-  _playerController: {fileID: 0}
+  _enemyPrefab: {fileID: 5943447459185746403, guid: b0a741f68c8124346a724415f58cc411,
+    type: 3}
   _gridHolder: {fileID: 336726442}
   _isGridGenerated: 0
   _selector: {fileID: 32077754}
@@ -213,6 +214,18 @@ MonoBehaviour:
   _gridGenerator: {fileID: 32077752}
   _obstacle: {fileID: 7272433755127272206, guid: 6db351256d467b442a9fb931a92f4094,
     type: 3}
+--- !u!114 &32077756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32077751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a2163ffa5b1784abc5b02fb0f66c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,7 +46,7 @@ public class Selector : MonoBehaviour
                     _originalMaterial = _highlighted.GetComponent<MeshRenderer>().material;
                     _highlighted.GetComponent<MeshRenderer>().material = _highlightMaterial;
 
-                    Debug.Log("Mat changed");
+                    //Debug.Log("Mat changed");
 
                     _coords.text = "X : " + _highlighted.GetComponent<SingleGridBlockScript>()._x + ", Y : " + _highlighted.GetComponent<SingleGridBlockScript>()._y;
 
@@ -77,7 +77,7 @@ public class Selector : MonoBehaviour
                     _selected = null;
                     _isSelected = false;
 
-                    Debug.Log("Removed Selected 1");
+                    //Debug.Log("Removed Selected 1");
                 }
 
                 if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(_ray, out _raycastHit))
@@ -90,7 +90,7 @@ public class Selector : MonoBehaviour
 
                         _isSelected = true;
 
-                        Debug.Log("Added Selected");
+                        //Debug.Log("Added Selected");
 
                     }
                     else
@@ -98,7 +98,7 @@ public class Selector : MonoBehaviour
                         _selected = null;
                         _isSelected = false;
 
-                        Debug.Log("Removed Selected 2");
+                        //Debug.Log("Removed Selected 2");
                     }
 
                 }
