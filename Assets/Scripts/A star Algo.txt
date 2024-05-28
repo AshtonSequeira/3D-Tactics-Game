@@ -1,73 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class PlayerController : MonoBehaviour
-{
-    GridScript _grid;
-
-    public int _posX, _posY;
-
-    public bool _canMove = true;
-
-    PlayerController _player;
-
-    GameManger _gameManger;
-
-    Selector _selector;
-
-    const int _MOVE_STRAIGHT_COST = 10;
-    const int _MOVE_DIAGONAL_COST = 14;
-
-    List<SingleGridBlockScript> _openList;
-    List<SingleGridBlockScript> _closedList;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _grid = GameObject.FindWithTag("GameManager").GetComponent<GridGenerator>()._grid;
-        _gameManger = GameObject.FindWithTag("GameManager").GetComponent<GameManger>();
-        _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-        _selector = GameObject.FindWithTag("GameManager").GetComponent<Selector>();
-        _posX = 0;
-        _posY = 0;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Check for input
-        if (_selector._isSelected)
-        {
-            SingleGridBlockScript _endNode = _selector._selected.GetComponent<SingleGridBlockScript>();
-
-            if (_endNode._x == _posX && _endNode._y == _posY)
-            {
-                return;
-            }
-            else if (_canMove)
-            {
-                //Calculate Path Using A* Algrithm
-                List<SingleGridBlockScript> _path = FindPath(_posX, _posY, _endNode._x, _endNode._y);
-
-                if (_path != null)
-                {
-                    _canMove = false;
-
-                    StartCoroutine(MoveUnit(_path, 0, _endNode));
-
-                    for (int i = 0; i < _path.Count - 1; i++)
-                    {
-                        Debug.DrawLine(new Vector3(_path[i]._x, 0.6f, _path[i]._y), new Vector3(_path[i + 1]._x, 0.6f, _path[i + 1]._y), Color.red, 20);
-
-                    }
-                }
-            }
-        }
-    }
-
-    //Moving the Player
-    IEnumerator MoveUnit(List<SingleGridBlockScript> _path, int i, SingleGridBlockScript _endNode)
+    IEnumerator MoveUnit(List<SingleGridBlockScript> _path, int i , SingleGridBlockScript _endNode)
     {
         i++;
 
@@ -75,24 +7,24 @@ public class PlayerController : MonoBehaviour
 
         _player.transform.position = _grid._gridBlockArray[_path[i]._x, _path[i]._y].transform.position + new Vector3(0f, 1.3f, 0f);
 
-        _posX = _path[i]._x;
-        _posY = _path[i]._y;
+        _playerController._posX = _path[i]._x;
+        _playerController._posY = _path[i]._y;
 
-        if (_posX == _endNode._x && _posY == _endNode._y)
+        if (_playerController._posX == _endNode._x && _playerController._posY == _endNode._y)
         {
-            _canMove = true;
+            _playerController._canMove = true;
 
             _gameManger.DecideMove();
         }
 
         if (i < _path.Count - 1)
         {
-            StartCoroutine(MoveUnit(_path, i, _endNode));
+            StartCoroutine(MoveUnit(_path, i, _endNode));            
         }
 
     }
 
-    List<SingleGridBlockScript> FindPath(int _startX, int _startY, int _endX, int _endY)
+    private List<SingleGridBlockScript> FindPath(int _startX, int _startY, int _endX, int _endY)
     {
         SingleGridBlockScript _startNode = _grid._gridBlockArray[_startX, _startY];
         SingleGridBlockScript _endNode = _grid._gridBlockArray[_endX, _endY];
@@ -114,7 +46,7 @@ public class PlayerController : MonoBehaviour
         }
 
         _startNode._gCost = 0;
-        _startNode._hCost = CalculateDistanceCost(_startNode, _endNode);
+        _startNode._hCost = CalculateDistanceCost(_startNode,_endNode);
         _startNode.CalculateFCost();
 
         while (_openList.Count > 0)
@@ -129,9 +61,9 @@ public class PlayerController : MonoBehaviour
             _openList.Remove(_currentNode);
             _closedList.Add(_currentNode);
 
-            foreach (SingleGridBlockScript _neighbourNode in GetNeighbourList(_currentNode))
+            foreach(SingleGridBlockScript _neighbourNode in GetNeighbourList(_currentNode))
             {
-                if (_closedList.Contains(_neighbourNode))
+                if(_closedList.Contains(_neighbourNode))
                 {
                     continue;
                 }
@@ -151,7 +83,7 @@ public class PlayerController : MonoBehaviour
                     _neighbourNode._hCost = CalculateDistanceCost(_neighbourNode, _endNode);
                     _neighbourNode.CalculateFCost();
 
-                    if (!_openList.Contains(_neighbourNode))
+                    if(!_openList.Contains(_neighbourNode))
                     {
                         _openList.Add(_neighbourNode);
                     }
@@ -164,15 +96,15 @@ public class PlayerController : MonoBehaviour
         return null;
     }
 
-    List<SingleGridBlockScript> GetNeighbourList(SingleGridBlockScript _currentNode)
+    private List<SingleGridBlockScript> GetNeighbourList(SingleGridBlockScript _currentNode)
     {
         List<SingleGridBlockScript> _neighbourList = new List<SingleGridBlockScript>();
 
         if (_currentNode._x - 1 >= 0)
-        {
+        {   
             //Left
             _neighbourList.Add(_grid._gridBlockArray[_currentNode._x - 1, _currentNode._y]);
-
+            
             //LeftDown
             if (_currentNode._y - 1 >= 0)
             {
@@ -183,7 +115,7 @@ public class PlayerController : MonoBehaviour
             //LeftUP
             if (_currentNode._y + 1 < _grid._height)
             {
-                _neighbourList.Add(_grid._gridBlockArray[_currentNode._x - 1, _currentNode._y + 1]);
+                _neighbourList.Add(_grid._gridBlockArray[_currentNode._x - 1, _currentNode._y +1]);
 
             }
         }
@@ -209,7 +141,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Down
-        if (_currentNode._y - 1 >= 0)
+        if(_currentNode._y - 1 >= 0)
         {
             _neighbourList.Add(_grid._gridBlockArray[_currentNode._x, _currentNode._y - 1]);
         }
@@ -224,10 +156,10 @@ public class PlayerController : MonoBehaviour
         return _neighbourList;
     }
 
-    List<SingleGridBlockScript> CalculatedPath(SingleGridBlockScript _endNode)
+    private List<SingleGridBlockScript> CalculatedPath(SingleGridBlockScript _endNode)
     {
         List<SingleGridBlockScript> _path = new List<SingleGridBlockScript>();
-
+        
         _path.Add(_endNode);
 
         SingleGridBlockScript _currentNode = _endNode;
@@ -243,17 +175,17 @@ public class PlayerController : MonoBehaviour
         return _path;
     }
 
-    int CalculateDistanceCost(SingleGridBlockScript _a, SingleGridBlockScript _b)
+    private int CalculateDistanceCost(SingleGridBlockScript _a, SingleGridBlockScript _b)
     {
         int _xDistance = Mathf.Abs(_a._x - _b._x);
         int _yDistance = Mathf.Abs(_a._y - _b._y);
         int _remaining = Mathf.Abs(_xDistance - _yDistance);
 
-        return _MOVE_DIAGONAL_COST * Mathf.Min(_xDistance, _yDistance) + _MOVE_STRAIGHT_COST * _remaining;
+        return _MOVE_DIAGONAL_COST * Mathf.Min(_xDistance,_yDistance) + _MOVE_STRAIGHT_COST * _remaining;
 
     }
 
-    SingleGridBlockScript GetLowestFCostNode(List<SingleGridBlockScript> _pathNodeList)
+    private SingleGridBlockScript GetLowestFCostNode(List<SingleGridBlockScript> _pathNodeList)
     {
         SingleGridBlockScript _lowestFCostNode = _pathNodeList[0];
 

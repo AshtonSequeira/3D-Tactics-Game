@@ -38,6 +38,7 @@ public class EnemyAI : MonoBehaviour
 
             List<SingleGridBlockScript> _neighbours = new List<SingleGridBlockScript>();
 
+            //Check if Neighbours around the Player are available
             foreach (SingleGridBlockScript _neighbourNode in GetNeighbourList(_grid._gridBlockArray[_player._posX, _player._posY]))
             {
                 if (!_neighbourNode._isBlocked)
@@ -47,21 +48,25 @@ public class EnemyAI : MonoBehaviour
                 }
             }
 
-            Debug.Log(_neighbours.Count);
+            int r = Random.Range(0, _neighbours.Count);
 
-                int r = Random.Range(0, _neighbours.Count);
-
+            //Calculate Path Using A* Algrithm
             List<SingleGridBlockScript> _path = FindPath(_posX, _posY, _neighbours[r]._x, _neighbours[r]._y);
-
 
             if (_path != null)
             {
-
                 StartCoroutine(MoveUnit(_path, 0, _neighbours[r]));
+
+                for (int i = 0; i < _path.Count - 1; i++)
+                {
+                    Debug.DrawLine(new Vector3(_path[i]._x, 0.6f, _path[i]._y), new Vector3(_path[i + 1]._x, 0.6f, _path[i + 1]._y), Color.cyan, 20);
+
+                }
             }
 
         }
 
+        //Moving the Enemy
         IEnumerator MoveUnit(List<SingleGridBlockScript> _path, int i, SingleGridBlockScript _endNode)
         {
             i++;
@@ -260,7 +265,6 @@ public class EnemyAI : MonoBehaviour
 
             return _lowestFCostNode;
         }
-
 
     }
 }

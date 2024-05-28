@@ -22,6 +22,7 @@ public class Selector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //To highlight each grid unit and display its position.
         if(_highlighted != null)
         {
             if(_highlighted != _selected)
@@ -46,8 +47,6 @@ public class Selector : MonoBehaviour
                     _originalMaterial = _highlighted.GetComponent<MeshRenderer>().material;
                     _highlighted.GetComponent<MeshRenderer>().material = _highlightMaterial;
 
-                    //Debug.Log("Mat changed");
-
                     _coords.text = "X : " + _highlighted.GetComponent<SingleGridBlockScript>()._x + ", Y : " + _highlighted.GetComponent<SingleGridBlockScript>()._y;
 
                 }
@@ -65,6 +64,7 @@ public class Selector : MonoBehaviour
 
         }
 
+        //Select a grid unit. Used to move the Player.
         if (Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject() && _grid._isGridGenerated)
         {
             PlayerController _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
@@ -77,7 +77,6 @@ public class Selector : MonoBehaviour
                     _selected = null;
                     _isSelected = false;
 
-                    //Debug.Log("Removed Selected 1");
                 }
 
                 if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(_ray, out _raycastHit))
@@ -90,7 +89,6 @@ public class Selector : MonoBehaviour
 
                         _isSelected = true;
 
-                        //Debug.Log("Added Selected");
 
                     }
                     else
@@ -98,15 +96,10 @@ public class Selector : MonoBehaviour
                         _selected = null;
                         _isSelected = false;
 
-                        //Debug.Log("Removed Selected 2");
                     }
 
                 }
-            }
-            
-
-            // Debug.Log("Selected: " + _selected.name);
-
+            }            
         }
     }
 }

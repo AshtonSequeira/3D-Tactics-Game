@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Indivisual Grid Unit
 public class SingleGridBlockScript : MonoBehaviour
 {
     public int _x;
@@ -21,6 +22,7 @@ public class SingleGridBlockScript : MonoBehaviour
 
     public SingleGridBlockScript _cameFromNode;
 
+    //Set the Grid Colour
     public void SetColour()
     {
         _renderer = GetComponent<Renderer>();
@@ -28,6 +30,7 @@ public class SingleGridBlockScript : MonoBehaviour
         _renderer.material = _materials[_colour];
     }
 
+    //FCost Calculation for A* Algorithm
     public void CalculateFCost()
     {
         _fCost = _gCost + _hCost;

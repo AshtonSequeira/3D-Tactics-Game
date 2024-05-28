@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+//Obstacle Editor Tool
 public class ObstacleDesignerWindow : EditorWindow
 {
     GridGenerator _gridGenerator;
@@ -32,18 +33,15 @@ public class ObstacleDesignerWindow : EditorWindow
             _gridGenerator = GameObject.Find("GameManager").GetComponent<GridGenerator>();
         }
 
-        DrawLayouts();
+        DrawLayouts(); //Not Used
         DrawHeader();
         if(_gridGenerator._isGridGenerated)
         {
             DrawBody();
         }
-
-        //Debug.Log(_gridGenerator._isGridGenerated);
-        //Debug.Log(_gridGenerator._x);
-
     }
 
+    //Not used
     void DrawLayouts()
     {
         _headerSection.x = 0;
@@ -72,28 +70,27 @@ public class ObstacleDesignerWindow : EditorWindow
 
     }
 
+    //Generating Custom Toggles
     void DrawBody()
     {
         GUILayout.BeginArea(_bodySection);
 
         for (int j = _gridGenerator._y - 1; j >= 0 ; j--)
         {
-
             EditorGUILayout.BeginHorizontal();
 
             for (int i = 0; i < _gridGenerator._x ; i++)
             {
                 if (GUILayout.Toggle(_gridGenerator._grid._gridBlockArray[i, j]._isBlocked, "(" + i + "," + j + ")", GUILayout.MaxWidth(50)))
                 {
-                    _gridGenerator._grid._gridBlockArray[i, j]._isBlocked = true;
-                 
+                    _gridGenerator._grid._gridBlockArray[i, j]._isBlocked = true;                 
                 }
                 else
                 {
                     _gridGenerator._grid._gridBlockArray[i, j]._isBlocked = false;
                 }
 
-
+                //Generating Custom Buttons
                 //if (GUILayout.Button("("+_i+","+_j+")", GUILayout.Height(20), GUILayout.MaxWidth(50)))
                 //{
                 //    if (_gridGenerator._grid._gridBlockArray[_i, _j]._isBlocked == true)

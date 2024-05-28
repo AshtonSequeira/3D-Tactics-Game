@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//AI Interface. Not Used.
 public interface IAI
 {
     static int _MOVE_STRAIGHT_COST = 10;
