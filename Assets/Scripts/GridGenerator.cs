@@ -47,7 +47,11 @@ public class GridGenerator : MonoBehaviour
         {
             SingleGridBlockScript _endNode = _selector._selected.GetComponent<SingleGridBlockScript>();
 
-            if(_endNode._x != _playerController._posX || _endNode._y != _playerController._posY)
+            if(_endNode._x == _playerController._posX && _endNode._y == _playerController._posY)
+            {
+                return;
+            }
+            else if(_playerController._canMove)
             {
                 List<SingleGridBlockScript> _path = FindPath(_playerController._posX, _playerController._posY, _endNode._x, _endNode._y);
 
@@ -61,10 +65,12 @@ public class GridGenerator : MonoBehaviour
                     StartCoroutine(MoveUnit(_path, 0, _endNode));
 
                     //_player.transform.position = _grid._gridBlockArray[_endNode._x, _endNode._y].transform.position + new Vector3(0f, 1.3f, 0f);
-                    
+
                     for (int i = 0; i < _path.Count - 1; i++)
                     {
-                        Debug.DrawLine(new Vector3(_path[i]._x, 1.5f, _path[i]._y), new Vector3(_path[i + 1]._x, 1.5f, _path[i + 1]._y), Color.red,10);
+                        Debug.DrawLine(new Vector3(_path[i]._x, 1.5f, _path[i]._y), new Vector3(_path[i + 1]._x, 1.5f, _path[i + 1]._y), Color.red, 20);
+
+                        //Debug.Log(_path[i]._x + " " + _path[i]._y);
 
                     }
                 }
@@ -140,7 +146,7 @@ public class GridGenerator : MonoBehaviour
                     continue;
                 }
 
-                if(_neighbourNode._isBlocked)
+                if (_neighbourNode._isBlocked)
                 {
                     _closedList.Add(_neighbourNode);
                     continue;
@@ -261,7 +267,7 @@ public class GridGenerator : MonoBehaviour
     {
         SingleGridBlockScript _lowestFCostNode = _pathNodeList[0];
 
-        for (int i = 0; i < _pathNodeList.Count; i++)
+        for (int i = 1; i < _pathNodeList.Count; i++)
         {
             if (_pathNodeList[i]._fCost < _lowestFCostNode._fCost)
             {
