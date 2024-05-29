@@ -5,9 +5,9 @@ using UnityEngine;
 //AI Interface. Not Used.
 public interface IAI
 {
-    static int _MOVE_STRAIGHT_COST = 10;
+    //static int _MOVE_STRAIGHT_COST = 10;
 
-    static int _MOVE_DIAGONAL_COST = 14;
+    //static int _MOVE_DIAGONAL_COST = 14;
 
     List<SingleGridBlockScript> FindPath(int _startX, int _startY, int _endX, int _endY);
 

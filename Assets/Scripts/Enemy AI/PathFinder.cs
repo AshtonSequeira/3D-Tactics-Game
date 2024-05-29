@@ -2,19 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour , IAI
+//This Class Implements IAI interface
+public class PathFinder : MonoBehaviour , IAI
 {
-    GridScript _grid;
-
     public int _posX, _posY;
 
-    public bool _canMove = true;
+    public GridScript _grid;
 
-    PlayerController _player;
+    public PlayerController _player;
 
-    GameManger _gameManger;
-
-    Selector _selector;
+    public GameManger _gameManger;
 
     const int _MOVE_STRAIGHT_COST = 10;
     const int _MOVE_DIAGONAL_COST = 14;
@@ -22,74 +19,13 @@ public class PlayerController : MonoBehaviour , IAI
     List<SingleGridBlockScript> _openList;
     List<SingleGridBlockScript> _closedList;
 
-    // Start is called before the first frame update
     void Start()
     {
         _grid = GameObject.FindWithTag("GameManager").GetComponent<GridGenerator>()._grid;
         _gameManger = GameObject.FindWithTag("GameManager").GetComponent<GameManger>();
         _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-        _selector = GameObject.FindWithTag("GameManager").GetComponent<Selector>();
-        _posX = 0;
-        _posY = 0;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Check for input
-        if (_selector._isSelected)
-        {
-            SingleGridBlockScript _endNode = _selector._selected.GetComponent<SingleGridBlockScript>();
-
-            if (_endNode._x == _posX && _endNode._y == _posY)
-            {
-                return;
-            }
-            else if (_canMove)
-            {
-                //Calculate Path Using A* Algrithm
-                List<SingleGridBlockScript> _path = FindPath(_posX, _posY, _endNode._x, _endNode._y);
-
-                if (_path != null)
-                {
-                    _canMove = false;
-
-                    StartCoroutine(MoveUnit(_path, 0, _endNode));
-
-                    for (int i = 0; i < _path.Count - 1; i++)
-                    {
-                        Debug.DrawLine(new Vector3(_path[i]._x, 0.6f, _path[i]._y), new Vector3(_path[i + 1]._x, 0.6f, _path[i + 1]._y), Color.red, 20);
-
-                    }
-                }
-            }
-        }
-    }
-
-    //Moving the Player
-    public IEnumerator MoveUnit(List<SingleGridBlockScript> _path, int i, SingleGridBlockScript _endNode)
-    {
-        i++;
-
-        yield return new WaitForSeconds(0.5f);
-
-        _player.transform.position = _grid._gridBlockArray[_path[i]._x, _path[i]._y].transform.position + new Vector3(0f, 1.3f, 0f);
-
-        _posX = _path[i]._x;
-        _posY = _path[i]._y;
-
-        if (_posX == _endNode._x && _posY == _endNode._y)
-        {
-            _canMove = true;
-
-            _gameManger.DecideMove();
-        }
-
-        if (i < _path.Count - 1)
-        {
-            StartCoroutine(MoveUnit(_path, i, _endNode));
-        }
-
+        _posX = _grid._width - 1;
+        _posY = _grid._height - 1;
     }
 
     public List<SingleGridBlockScript> FindPath(int _startX, int _startY, int _endX, int _endY)
@@ -267,5 +203,4 @@ public class PlayerController : MonoBehaviour , IAI
 
         return _lowestFCostNode;
     }
-
 }
